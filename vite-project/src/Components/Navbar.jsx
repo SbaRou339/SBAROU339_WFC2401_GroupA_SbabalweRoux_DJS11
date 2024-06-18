@@ -3,8 +3,12 @@ import EchoPodLogo from '../assets/Logo'
 
 const Navbar = () => {
   return (
-    <div>
+    <div className="flex items-center justify-between p-4 w-full z-[100] absolute">
       <EchoPodLogo />
+      <div>
+        <button className="text-white pr-4">Login</button>
+        <button className="bg-blue-500 px-6 py-2 rounded cursor-pointer text-white">Sign Up</button>
+      </div>
     </div>
   )
 }
