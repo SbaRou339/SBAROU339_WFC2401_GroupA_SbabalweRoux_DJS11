@@ -26,20 +26,22 @@ const PodcastCarousel = () => {
       });
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center py-10">Error: {error.message}</div>;
 
   const settings = {
-    dots: true,
+    dots: false, // Remove the dotted navigation bar
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 5, // Show multiple podcasts at a time
     slidesToScroll: 1,
+    autoplay: true, // Enable autoplay
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
@@ -52,18 +54,26 @@ const PodcastCarousel = () => {
       },
     ],
   };
+
   return (
-    <div className="w-full h-[550px] text-white">
-      <div className="w-full h-full">
+    <div className="w-full text-white bg-black py-10">
+      <div className="container mx-auto px-4">
         <Slider {...settings}>
           {podcasts.map((podcast) => (
-            <div key={podcast.id}>
-              <h2>{podcast.title}</h2>
-              <img
-                src={podcast.image}
-                alt={podcast.title}
-                style={{ width: "100%", height: "auto" }}
-              />
+            <div key={podcast.id} className="p-2">
+              <div className="transform hover:scale-105 transition-transform duration-300 bg-gray-800 rounded-lg overflow-hidden shadow-md">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img
+                    src={podcast.image}
+                    alt={podcast.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold text-white">{podcast.title}</h2>
+                  <p className="text-gray-400">{podcast.genre}</p>
+                </div>
+              </div>
             </div>
           ))}
         </Slider>
