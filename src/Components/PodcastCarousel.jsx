@@ -56,7 +56,7 @@ const PodcastCarousel = () => {
   };
 
   return (
-    <div className="w-full text-white bg-black py-20">
+    <div className="w-full h-[550px] text-white bg-black py-20">
       <div className="container mx-auto px-4">
         <Slider {...settings}>
           {podcasts.map((podcast) => (
