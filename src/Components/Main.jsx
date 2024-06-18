@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PodcastCarousel from '/src/Components/PodcastCarousel';
+import PodcastCarousel from "/src/Components/PodcastCarousel";
 
 // const truncateDescription = (description, wordLimit) => {
 //   const words = description.split(" ");
@@ -37,7 +37,7 @@ const Main = () => {
 
   return (
     <>
-    <PodcastCarousel />
+      <PodcastCarousel />
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {podcasts.length === 0 ? (
           <p>Loading...</p>
@@ -55,12 +55,12 @@ const Main = () => {
                 </h2>
 
                 <button
-                  className="text-gray-300 mb-2"
+                  className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
                   onClick={() => onShowClick(podcast.id)}
                 >
-                  <strong>Seasons:</strong> {podcast.seasons}
+                  <strong>Listen Now</strong>
                 </button>
-                <p className="text-gray-300">
+                <p className="text-gray-300 w-full bg-blue-700 p-2 rounded-lg">
                   <strong>Last Updated:</strong>{" "}
                   {new Date(podcast.updated).toLocaleDateString()}
                 </p>

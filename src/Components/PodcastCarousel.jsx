@@ -36,7 +36,7 @@ const PodcastCarousel = () => {
     slidesToShow: 5, // Show multiple podcasts at a time
     slidesToScroll: 1,
     autoplay: true, // Enable autoplay
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
     responsive: [
       {
         breakpoint: 1024,
@@ -56,7 +56,7 @@ const PodcastCarousel = () => {
   };
 
   return (
-    <div className="w-full text-white bg-black py-10">
+    <div className="w-full text-white bg-black py-20">
       <div className="container mx-auto px-4">
         <Slider {...settings}>
           {podcasts.map((podcast) => (
@@ -65,7 +65,7 @@ const PodcastCarousel = () => {
                 <div className="aspect-w-16 aspect-h-9">
                   <img
                     src={podcast.image}
-                    alt={podcast.title}
+                    alt={podcast?.title}
                     className="w-full h-full object-cover"
                   />
                 </div>
