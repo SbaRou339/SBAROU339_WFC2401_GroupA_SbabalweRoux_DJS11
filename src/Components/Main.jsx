@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PodcastCarousel from "/src/Components/PodcastCarousel";
-
-// const truncateDescription = (description, wordLimit) => {
-//   const words = description.split(" ");
-//   if (words.length > wordLimit) {
-//     return words.slice(0, wordLimit).join(" ") + "...";
-//   }
-//   return description;
-// };
+//import SearchBar from "/src/assets/SearchBar";
 
 const Main = () => {
   const [podcasts, setPodcasts] = useState([]);
+  const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -23,6 +17,7 @@ const Main = () => {
         const data = await response.json();
         const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
         setPodcasts(sortedData);
+        setFilteredPodcasts(sortedData); // Initialize filteredPodcasts with sortedData
       } catch (error) {
         setError(error.message);
       }
@@ -35,14 +30,19 @@ const Main = () => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
+  const onShowClick = (id) => {
+    // Function to handle "Listen Now" button click
+    console.log(`Podcast ID: ${id}`);
+  };
+
   return (
     <>
       <PodcastCarousel />
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {podcasts.length === 0 ? (
+        {filteredPodcasts.length === 0 ? (
           <p>Loading...</p>
         ) : (
-          podcasts.map((podcast) => (
+          filteredPodcasts.map((podcast) => (
             <div
               key={podcast.id}
               className="relative bg-cover bg-center rounded-lg shadow-md h-96"
@@ -53,13 +53,16 @@ const Main = () => {
                 <h2 className="text-xl font-semibold mb-2 text-white">
                   {podcast.title}
                 </h2>
-
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
                   onClick={() => onShowClick(podcast.id)}
                 >
                   <strong>Listen Now</strong>
                 </button>
+                <p className="text-gray-300 w-full p-2 rounded-lg">
+                  <strong>Genre:</strong>{" "}
+                  {podcast.genre ? podcast.genre.map((genreId) => genres[genreId]).join(", ") : "N/A"}
+                </p>
                 <p className="text-gray-300 w-full bg-blue-700 p-2 rounded-lg">
                   <strong>Last Updated:</strong>{" "}
                   {new Date(podcast.updated).toLocaleDateString()}
