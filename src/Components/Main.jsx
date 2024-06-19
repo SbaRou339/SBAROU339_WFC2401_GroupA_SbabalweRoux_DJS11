@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PodcastCarousel from "/src/Components/PodcastCarousel";
-//import SearchBar from "/src/assets/SearchBar";
+import SearchBar from "/src/assets/SearchBar";
 
 const Main = () => {
   const [podcasts, setPodcasts] = useState([]);
@@ -10,7 +10,7 @@ const Main = () => {
   useEffect(() => {
     const fetchPodcasts = async () => {
       try {
-        const response = await fetch("https://podcast-api.netlify.app");
+        const response = await fetch("https://podcast-api.netlify.app/shows");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -25,6 +25,13 @@ const Main = () => {
 
     fetchPodcasts();
   }, []);
+
+  const filterResults = (query) => {
+    const filtered = podcasts.filter((podcast) =>
+      podcast.title.toLowerCase().includes(query)
+    );
+    setFilteredPodcasts(filtered);
+  };
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;

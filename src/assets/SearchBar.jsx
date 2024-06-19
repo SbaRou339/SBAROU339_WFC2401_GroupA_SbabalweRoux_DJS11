@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-const SearchBar = () => {
+const SearchBar = ({ setResults }) => {
   const [query, setQuery] = useState('');
-  const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -19,9 +18,9 @@ const SearchBar = () => {
       })
       .then((json) => {
         const results = json.filter((podcast) => {
-          return podcast.title.toLowerCase().includes(value.toLowerCase());
+          return value && podcast && podcast.title && podcast.title.toLowerCase().includes(value.toLowerCase());
         });
-        setPodcasts(results);
+        setResults(results);
         setLoading(false);
       })
       .catch((error) => {
@@ -31,13 +30,13 @@ const SearchBar = () => {
   };
 
   const handleInputChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value.toLowerCase();
     setQuery(value);
     fetchData(value);
   };
 
   return (
-    <div className="my-4">
+    <div className="relative">
       <input
         type="text"
         value={query}
@@ -45,16 +44,8 @@ const SearchBar = () => {
         placeholder="Search for podcasts..."
         className="w-full p-2 rounded-lg border border-gray-300"
       />
-      {loading && <p className="text-gray-500">Loading...</p>}
+      {loading && <p className="text-gray-500 bg-blue-500">Loading...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
-      <ul className="mt-4 space-y-2">
-        {podcasts.map((podcast) => (
-          <li key={podcast.id} className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold">{podcast.title}</h3>
-            <p className="text-gray-600">{podcast.description}</p>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
