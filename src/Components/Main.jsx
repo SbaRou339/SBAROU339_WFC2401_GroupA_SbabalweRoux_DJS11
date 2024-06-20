@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HomeButtons from './Buttons'; // Import HomeButtons
 
 const Main = () => {
   const navigate = useNavigate();
@@ -26,9 +27,30 @@ const Main = () => {
     fetchPodcasts();
   }, []);
 
+  const sortPodcasts = (criteria) => {
+    let sortedData;
+    switch (criteria) {
+      case 'A-Z':
+        sortedData = [...podcasts].sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'Z-A':
+        sortedData = [...podcasts].sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'Date (New-Old)':
+        sortedData = [...podcasts].sort((a, b) => new Date(b.updated) - new Date(a.updated));
+        break;
+      case 'Date (Old-New)':
+        sortedData = [...podcasts].sort((a, b) => new Date(a.updated) - new Date(b.updated));
+        break;
+      default:
+        sortedData = podcasts;
+    }
+    setFilteredPodcasts(sortedData);
+  };
+
   const filterResults = (query) => {
     const filtered = podcasts.filter((podcast) =>
-      podcast.title.toLowerCase().includes(query)
+      podcast.title.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredPodcasts(filtered);
   };
@@ -44,6 +66,7 @@ const Main = () => {
 
   return (
     <>
+      <HomeButtons onSort={sortPodcasts} /> {/* Pass the sort function as a prop */}
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredPodcasts.length === 0 ? (
           <p>Loading...</p>
@@ -61,7 +84,7 @@ const Main = () => {
                 </h2>
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
-                  onClick={() => {navigate('/podcast'), onShowClick(podcast.id)}}
+                  onClick={() => {navigate('/podcast'); onShowClick(podcast.id);}}
                 >
                   <strong>Listen Now</strong>
                 </button>

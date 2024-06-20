@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const HomeButtons = () => {
+const HomeButtons = ({ onSort }) => {
   const navigate = useNavigate();
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -14,6 +14,11 @@ const HomeButtons = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsSortDropdownOpen(false);
     }
+  };
+
+  const handleSort = (criteria) => {
+    onSort(criteria);
+    setIsSortDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -46,10 +51,30 @@ const HomeButtons = () => {
         {isSortDropdownOpen && (
           <div className='absolute mt-2 w-48 bg-white rounded shadow-md z-[200]'>
             <ul className='text-black'>
-              <li className='px-4 py-2 hover:bg-gray-200 cursor-pointer'>A-Z</li>
-              <li className='px-4 py-2 hover:bg-gray-200 cursor-pointer'>Z-A</li>
-              <li className='px-4 py-2 hover:bg-gray-200 cursor-pointer'>Date (New-Old)</li>
-              <li className='px-4 py-2 hover:bg-gray-200 cursor-pointer'>Date (Old-New)</li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleSort('A-Z')}
+              >
+                A-Z
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleSort('Z-A')}
+              >
+                Z-A
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleSort('Date (New-Old)')}
+              >
+                Date (New-Old)
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleSort('Date (Old-New)')}
+              >
+                Date (Old-New)
+              </li>
             </ul>
           </div>
         )}

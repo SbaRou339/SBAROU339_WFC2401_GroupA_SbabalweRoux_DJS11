@@ -97,7 +97,7 @@ const Podcast = () => {
   }
 
   return (
-    <div>
+    <div className="text-white">
       <h1>{podcast.title}</h1>
       <p>{podcast.description}</p>
       {podcast.seasons.map((season) => (
