@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PodcastCarousel from "/src/Components/PodcastCarousel";
-import SearchBar from "/src/assets/SearchBar";
+
 
 const Main = () => {
   const [podcasts, setPodcasts] = useState([]);
@@ -44,7 +43,6 @@ const Main = () => {
 
   return (
     <>
-      <PodcastCarousel />
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredPodcasts.length === 0 ? (
           <p>Loading...</p>
@@ -66,10 +64,6 @@ const Main = () => {
                 >
                   <strong>Listen Now</strong>
                 </button>
-                <p className="text-gray-300 w-full p-2 rounded-lg">
-                  <strong>Genre:</strong>{" "}
-                  {podcast.genre ? podcast.genre.map((genreId) => genres[genreId]).join(", ") : "N/A"}
-                </p>
                 <p className="text-gray-300 w-full bg-blue-700 p-2 rounded-lg">
                   <strong>Last Updated:</strong>{" "}
                   {new Date(podcast.updated).toLocaleDateString()}

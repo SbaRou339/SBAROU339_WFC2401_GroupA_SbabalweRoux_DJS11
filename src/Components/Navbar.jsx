@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import EchoPodLogo from '../assets/Logo'
 import SearchBar from '../assets/SearchBar'
-import SearchResultList from './SearchResultList';
+import SearchResultList from '../assets/SearchResultList';
 
 const Navbar = () => {
   const [results, setResults] = useState([]);

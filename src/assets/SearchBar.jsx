@@ -42,7 +42,7 @@ const SearchBar = ({ setResults }) => {
         value={query}
         onChange={handleInputChange}
         placeholder="Search for podcasts..."
-        className="w-full p-2 rounded-lg border border-gray-300"
+        className="w-full p-1 rounded-lg border border-gray-300"
       />
       {loading && <p className="text-gray-500 bg-blue-500">Loading...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
