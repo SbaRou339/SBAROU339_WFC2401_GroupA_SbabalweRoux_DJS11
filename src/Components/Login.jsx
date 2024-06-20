@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import EchoPodLogo from "../assets/Logo";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Implement login logic here (e.g., API call)
-    console.log('Logging in with', email, password);
+    console.log("Logging in with", email, password);
     // On success, navigate to another page
-    navigate('/'); // Change '/dashboard' to your desired path
+    navigate("/"); // Change '/dashboard' to your desired path
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+        <div className="flex bg-white justify-center mb-6">
+          <EchoPodLogo />
+        </div>
+        <h2 className="text-2xl font-bold text-center text-blue-500">Login</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-blue-500"
+            >
               Email
             </label>
             <input
@@ -33,7 +40,10 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-blue-500"
+            >
               Password
             </label>
             <input
@@ -53,9 +63,9 @@ const Login = () => {
           </button>
         </form>
         <p className="text-center">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <button
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate("/signup")}
             className="text-blue-500 hover:underline"
           >
             Sign up

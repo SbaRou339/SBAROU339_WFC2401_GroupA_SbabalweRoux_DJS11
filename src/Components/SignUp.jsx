@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EchoPodLogo from '../assets/Logo';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -22,10 +23,13 @@ const Signup = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+      <div className="flex bg-white justify-center mb-6">
+          <EchoPodLogo />
+        </div>
+        <h2 className="text-2xl text-blue-500 font-bold text-center">Sign Up</h2>
         <form onSubmit={handleSignup}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-blue-500">
               Email
             </label>
             <input
@@ -38,7 +42,7 @@ const Signup = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-blue-500">
               Password
             </label>
             <input
@@ -51,7 +55,7 @@ const Signup = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-blue-500">
               Confirm Password
             </label>
             <input
