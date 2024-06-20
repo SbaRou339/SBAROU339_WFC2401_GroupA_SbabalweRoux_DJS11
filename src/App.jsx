@@ -3,13 +3,14 @@ import Navbar from "../src/Components/Navbar";
 import HomeButtons from "./Components/Buttons";
 import GenrePage from "./Pages/GenrePage";
 import Home from "./Pages/HomePage";
+import Login from "./Pages/Login";
 import PodcastPage from "./Pages/PodcastPage";
-import Login from "./Components/Login";
-import SignUp from "./Components/SignUp";
+import SignUp from "./Pages/SignUp";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const hideNavbar = location.pathname === '/login' || location.pathname === '/signup';
+  const hideNavbar =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
@@ -50,7 +51,7 @@ const App = () => {
           }
         />
         <Route
-          path="/podcast/:podcastId"
+          path="/podcast"
           element={
             <Layout>
               <PodcastPage />

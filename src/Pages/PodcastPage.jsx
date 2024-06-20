@@ -1,5 +1,4 @@
 import React from "react";
-import Episodes from "../Components/Episodes";
 import Podcast from "../Components/Podcast";
 
 const PodcastPage = () => {
@@ -9,7 +8,6 @@ const PodcastPage = () => {
         Podcast Page
       </h1>
       <Podcast />
-      <Episodes />
     </>
   );
 };

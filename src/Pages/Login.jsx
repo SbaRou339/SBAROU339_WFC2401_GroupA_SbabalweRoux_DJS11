@@ -10,7 +10,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Implement login logic here (e.g., API call)
-    console.log("Logging in with", email, password);
     // On success, navigate to another page
     navigate("/"); // Change '/dashboard' to your desired path
   };

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const fetchPodcast = async (podcastId) => {
   try {
     const response = await fetch(
-      `https://podcast-api.netlify.app/id/${podcastId}`
+      `${'https://podcast-api.netlify.app'}/id/${podcastId}`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch show with ID ${podcastId}`);
@@ -12,7 +12,7 @@ const fetchPodcast = async (podcastId) => {
     const data = await response.json();
 
     // Assuming 'seasons' and 'episodes' are properties in the SHOW object
-    const showDetails = {
+    const podcastDetails = {
       id: data.id,
       title: data.title,
       description: data.description,
@@ -29,8 +29,8 @@ const fetchPodcast = async (podcastId) => {
         })),
       })),
     };
-
-    return showDetails;
+    console.log(podcastDetails);
+    return podcastDetails;
   } catch (error) {
     console.error(`Error fetching show with ID ${podcastId}:`, error);
     throw error;

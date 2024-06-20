@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HomeButtons from './Buttons'; // Import HomeButtons
+import HomeButtons from "./Buttons"; // Import HomeButtons
 
 const Main = () => {
   const navigate = useNavigate();
   const [podcasts, setPodcasts] = useState([]);
+  const [genre, setGenre] = useState([]);
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   const [error, setError] = useState(null);
 
@@ -30,22 +31,78 @@ const Main = () => {
   const sortPodcasts = (criteria) => {
     let sortedData;
     switch (criteria) {
-      case 'A-Z':
-        sortedData = [...podcasts].sort((a, b) => a.title.localeCompare(b.title));
+      case "A-Z":
+        sortedData = [...podcasts].sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
         break;
-      case 'Z-A':
-        sortedData = [...podcasts].sort((a, b) => b.title.localeCompare(a.title));
+      case "Z-A":
+        sortedData = [...podcasts].sort((a, b) =>
+          b.title.localeCompare(a.title)
+        );
         break;
-      case 'Date (New-Old)':
-        sortedData = [...podcasts].sort((a, b) => new Date(b.updated) - new Date(a.updated));
+      case "Date (New-Old)":
+        sortedData = [...podcasts].sort(
+          (a, b) => new Date(b.updated) - new Date(a.updated)
+        );
         break;
-      case 'Date (Old-New)':
-        sortedData = [...podcasts].sort((a, b) => new Date(a.updated) - new Date(b.updated));
+      case "Date (Old-New)":
+        sortedData = [...podcasts].sort(
+          (a, b) => new Date(a.updated) - new Date(b.updated)
+        );
         break;
       default:
         sortedData = podcasts;
     }
     setFilteredPodcasts(sortedData);
+  };
+
+  const genres = {
+    1: "Personal Growth",
+    2: "Investigative Journalism",
+    3: "History",
+    4: "Comedy",
+    5: "Entertainment",
+    6: "Business",
+    7: "Fiction",
+    8: "News",
+    9: "Kids and Family",
+  };
+
+  const sortGenres = (genreId) => {
+    useEffect(() => {
+      const fetchGenres = async () => {
+        try {
+          const response = await fetch(`https://podcast-api.netlify.app/genre/${genreId}`);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setGenre(data);
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+  
+      fetchGenres();
+    }, []);
+
+    let sortedGenre;
+    switch (genres) {
+      case "Personal Growth":
+        sortedGenre = [...genres].sort((genres[1], genreId) =>
+          genres[1].localeCompare(genreId)
+        );
+        break;
+      case "Investigative Journalism":
+        sortedGenre = [...genres].sort((genres[2], genreId) =>
+          genres[2].localeCompare(genreId)
+        );
+        break;
+      default:
+        sortedGenre = genre;
+    }
+
   };
 
   const filterResults = (query) => {
@@ -66,7 +123,8 @@ const Main = () => {
 
   return (
     <>
-      <HomeButtons onSort={sortPodcasts} /> {/* Pass the sort function as a prop */}
+      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres} />{" "}
+      {/* Pass the sort function as a prop */}
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredPodcasts.length === 0 ? (
           <p>Loading...</p>
@@ -84,7 +142,10 @@ const Main = () => {
                 </h2>
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
-                  onClick={() => {navigate('/podcast'); onShowClick(podcast.id);}}
+                  onClick={() => {
+                    navigate("/podcast");
+                    onShowClick(podcast.id);
+                  }}
                 >
                   <strong>Listen Now</strong>
                 </button>

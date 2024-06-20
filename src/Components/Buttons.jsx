@@ -1,24 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const HomeButtons = ({ onSort }) => {
-  const navigate = useNavigate();
+const HomeButtons = ({ onSort, onGenre }) => {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const toggleSortDropdown = () => {
     setIsSortDropdownOpen(!isSortDropdownOpen);
   };
 
+  const toggleGenreDropdown = () => {
+    setIsGenreDropdownOpen(!isGenreDropdownOpen);
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsSortDropdownOpen(false);
+    }
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsGenreDropdownOpen(false);
     }
   };
 
   const handleSort = (criteria) => {
     onSort(criteria);
     setIsSortDropdownOpen(false);
+  };
+
+  const handleGenre = (genre) => {
+    onGenre(genre);
+    setIsGenreDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -28,6 +39,8 @@ const HomeButtons = ({ onSort }) => {
       document.removeEventListener('click', handleClickOutside);
     }
 
+
+
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
@@ -35,12 +48,74 @@ const HomeButtons = ({ onSort }) => {
 
   return (
     <div className='flex items-center p-4 w-full z-[100]'>
+      <div className='relative' ref={dropdownRef}>
       <button
         className="text-white px-6 py-2 rounded from-gray-200 to-transparent cursor-pointer hover:bg-blue-500 hover:text-white transition duration-300"
-        onClick={() => navigate('/genre')}
+        onClick={toggleGenreDropdown}
       >
         Genre
       </button>
+      {isGenreDropdownOpen && (
+          <div className='absolute mt-2 w-48 bg-white rounded shadow-md z-[200]'>
+            <ul className='text-black'>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre('Personal Growth')}
+              >
+                Personal Growth
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre('Investigative Journalism')}
+              >
+                Investigative Journalism
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                History
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                Comedy
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                Entertainment
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                Business
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                Fiction
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                News
+              </li>
+              <li
+                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                onClick={() => handleGenre()}
+              >
+                Kids and Family
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
       <div className='relative' ref={dropdownRef}>
         <button
           className="text-white px-6 py-2 rounded from-gray-200 to-transparent cursor-pointer hover:bg-blue-500 hover:text-white transition duration-300"

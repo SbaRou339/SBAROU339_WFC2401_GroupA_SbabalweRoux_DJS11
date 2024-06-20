@@ -15,7 +15,7 @@ const Signup = () => {
       return;
     }
     // Implement signup logic here (e.g., API call)
-    console.log('Signing up with', email, password);
+    
     // On success, navigate to another page
     navigate('/'); // Change '/dashboard' to your desired path
   };
