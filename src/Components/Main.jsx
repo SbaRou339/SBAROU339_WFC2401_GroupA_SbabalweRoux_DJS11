@@ -61,7 +61,7 @@ const Main = () => {
                 </h2>
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
-                  onClick={() => navigate('/podcast')}
+                  onClick={() => {navigate('/podcast'), onShowClick(podcast.id)}}
                 >
                   <strong>Listen Now</strong>
                 </button>
