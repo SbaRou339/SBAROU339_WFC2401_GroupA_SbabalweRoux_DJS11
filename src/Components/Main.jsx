@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate();
   const [podcasts, setPodcasts] = useState([]);
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   const [error, setError] = useState(null);
@@ -60,7 +61,7 @@ const Main = () => {
                 </h2>
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
-                  onClick={() => onShowClick(podcast.id)}
+                  onClick={() => navigate('/podcast')}
                 >
                   <strong>Listen Now</strong>
                 </button>
