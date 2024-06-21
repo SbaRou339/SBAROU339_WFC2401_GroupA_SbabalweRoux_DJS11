@@ -9,8 +9,10 @@ const Navbar = () => {
   const [results, setResults] = useState([]);
 
   return (
-    <div className="flex items-center justify-between p-4 w-full z-[100] absolute">
-      <EchoPodLogo />
+    <div  className="flex items-center justify-between p-4 w-full z-[100] absolute">
+      <div onClick={() => navigate('/')}>
+        <EchoPodLogo />
+      </div>
       <div>
         <SearchBar setResults={setResults} />
         <SearchResultList results={results}/>

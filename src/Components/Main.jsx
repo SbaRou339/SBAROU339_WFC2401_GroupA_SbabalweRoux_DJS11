@@ -11,7 +11,6 @@ const Main = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchPodcasts = async () => {
       try {
@@ -26,7 +25,6 @@ const Main = () => {
         setLoading(false);
       } catch (error) {
         setError(error.message);
-        
       }
     };
 
@@ -44,15 +42,15 @@ const Main = () => {
         }
         const data = await response.json();
         const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
-        setGenre(sortedData)
+        setGenre(sortedData);
         setFilteredPodcasts(sortedData);
       } catch (error) {
         setError(error.message);
       }
-    }
+    };
 
     fetchPodcastGenre();
-  },[]);
+  }, []);
 
   const sortPodcasts = (criteria) => {
     let sortedData;
@@ -126,17 +124,16 @@ const Main = () => {
           podcast.genres.includes("News")
         );
         break;
-        case "Kids and family":
-          sortedData = [...podcasts].filter((podcast) =>
-            podcast.genres.includes("Kids and Family")
-          );
-          break;
+      case "Kids and family":
+        sortedData = [...podcasts].filter((podcast) =>
+          podcast.genres.includes("Kids and Family")
+        );
+        break;
       default:
         sortedData = podcasts;
     }
     setFilteredGenre(sortedData);
   };
-
 
   if (loading) {
     return (
@@ -166,41 +163,47 @@ const Main = () => {
 
   return (
     <>
-      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres}/>
+      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres} />
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredPodcasts && (
-          filteredPodcasts.map((podcast) => {return (<Link
-            key={podcast.id}
-            to={`${podcast.id}`}
-          >
-            <div
-              key={podcast.id}
-              className="relative bg-cover bg-center rounded-lg shadow-md h-96"
-              style={{ backgroundImage: `url(${podcast.image})` }}
-            >
-              <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
-              <div className="relative z-10 p-4 flex flex-col justify-end h-full">
-                <h2 className="text-xl font-semibold mb-2 text-white">
-                  {podcast.title}
-                </h2>
-                <button
-                  className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
-                  onClick={() => {
-                    navigate(":id");
-                    onShowClick(podcast.id);
-                  }}
+        {filteredPodcasts &&
+          filteredPodcasts.map((podcast) => {
+            return (
+              <Link key={podcast.id} to={`${podcast.id}`}>
+                <div
+                  key={podcast.id}
+                  className="relative bg-cover bg-center rounded-lg shadow-md h-96"
+                  style={{ backgroundImage: `url(${podcast.image})` }}
                 >
-                  <strong>Listen Now</strong>
-                </button>
-                <p className="text-gray-300 w-full bg-blue-700 p-2 rounded-lg">
-                  <strong>Last Updated:</strong>{" "}
-                  {new Date(podcast.updated).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-            </Link>
-            )})
-        )}
+                  <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
+                  <div className="relative z-10 p-4 flex flex-col justify-end h-full">
+                    <h2 className="text-xl font-semibold mb-2 text-white">
+                      {podcast.title}
+                    </h2>
+                    <div
+                      className="text-gray-300 mb-2"
+                      onClick={() => onShowClick(podcast.id)}
+                    >
+                      <strong>Seasons:</strong> {podcast.seasons}
+                    </div>
+                    <button
+                      className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
+                      onClick={() => {
+                        navigate(":id");
+                        onShowClick(podcast.id);
+                      }}
+                    >
+                      <strong>Listen Now</strong>
+                    </button>
+
+                    <p className="text-gray-300 w-full bg-blue-700 p-2 rounded-lg">
+                      <strong>Last Updated:</strong>{" "}
+                      {new Date(podcast.updated).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </>
   );
