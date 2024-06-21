@@ -9,6 +9,8 @@ const Main = () => {
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
   const [filteredGenre, setFilteredGenre] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -21,8 +23,10 @@ const Main = () => {
         const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
         setPodcasts(sortedData);
         setFilteredPodcasts(sortedData); // Initialize filteredPodcasts with sortedData
+        setLoading(false);
       } catch (error) {
         setError(error.message);
+        setLoading(false);
       }
     };
 
@@ -133,6 +137,17 @@ const Main = () => {
     setFilteredGenre(sortedData);
   };
 
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-blue-500 p-4 bg-blue-500 rounded-full animate-spin transition-transform duration-700 ease-in-out">
+          Loading....
+        </p>
+      </div>
+    );
+  }
+
   // const filterResults = (query) => {
   //   const filtered = podcasts.filter((podcast) =>
   //     podcast.title.toLowerCase().includes(query.toLowerCase())
@@ -151,11 +166,9 @@ const Main = () => {
 
   return (
     <>
-      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres} />
+      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres}/>
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredPodcasts.length === 0 ? (
-          <p>Loading...</p>
-        ) : (
+        {filteredPodcasts && (
           filteredPodcasts.map((podcast) => {return (<Link
             key={podcast.id}
             to={`${podcast.id}`}
@@ -173,7 +186,7 @@ const Main = () => {
                 <button
                   className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
                   onClick={() => {
-                    navigate("/podcast");
+                    navigate(":id");
                     onShowClick(podcast.id);
                   }}
                 >

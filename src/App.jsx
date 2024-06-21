@@ -1,4 +1,6 @@
+import React from 'react' 
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useState } from "react";
 import Navbar from "../src/Components/Navbar";
 import HomeButtons from "./Components/Buttons";
 import GenrePage from "./Pages/GenrePage";
@@ -7,27 +9,29 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Podcast from "./Components/Podcast";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, selectedPodcast, setSelectedPodcast }) => {
   const location = useLocation();
   const hideNavbar =
     location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
-      {children}
+      {!hideNavbar && <Navbar path="/"/>}
+      {React.cloneElement(children, { selectedPodcast, setSelectedPodcast })}
     </>
   );
 };
 
 const App = () => {
+  const [selectedPodcast, setSelectedPodcast] = useState(null);
+
   return (
     <>
       <Routes>
         <Route
           path="/"
           element={
-            <Layout>
+            <Layout selectedPodcast={selectedPodcast} setSelectedPodcast={setSelectedPodcast}>
               <Home />
             </Layout>
           }
@@ -37,7 +41,7 @@ const App = () => {
         <Route
           path="/home-buttons"
           element={
-            <Layout>
+            <Layout selectedPodcast={selectedPodcast} setSelectedPodcast={setSelectedPodcast}>
               <HomeButtons />
             </Layout>
           }
@@ -45,7 +49,7 @@ const App = () => {
         <Route
           path="/genre"
           element={
-            <Layout>
+            <Layout selectedPodcast={selectedPodcast} setSelectedPodcast={setSelectedPodcast}>
               <GenrePage />
             </Layout>
           }
@@ -53,7 +57,7 @@ const App = () => {
         <Route
           path=":id"
           element={
-            <Layout>
+            <Layout selectedPodcast={selectedPodcast} setSelectedPodcast={setSelectedPodcast}>
               <Podcast />
             </Layout>
           }
