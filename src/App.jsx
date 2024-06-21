@@ -8,6 +8,7 @@ import Home from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Podcast from "./Components/Podcast";
+import Favorite from './Components/Favorite';
 
 const Layout = ({ children, selectedPodcast, setSelectedPodcast }) => {
   const location = useLocation();
@@ -62,6 +63,7 @@ const App = () => {
             </Layout>
           }
         />
+        <Route path="/favorites" element={<Favorite/>} />
       </Routes>
     </>
   );

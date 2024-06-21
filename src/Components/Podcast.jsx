@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import '../index.css'; // Ensure Tailwind is imported
+import Favorite from "./Favorite"; // Import Favorite component
 
 const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
   const podcastId = useParams();
@@ -8,7 +9,6 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
   const [loading, setLoading] = useState(true);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [playingEpisode, setPlayingEpisode] = useState(null);
-  const [favorites, setFavorites] = useState({});
   const [error, setError] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState({});
 
@@ -41,13 +41,6 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
 
   const pauseEpisode = () => {
     setPlayingEpisode(null);
-  };
-
-  const toggleFavorite = (episodeId) => {
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [episodeId]: !prevFavorites[episodeId],
-    }));
   };
 
   const toggleDescription = (episodeId) => {
@@ -114,12 +107,7 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
                     >
                       {playingEpisode === episode.id ? "Pause" : "Play"}
                     </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg transition-colors duration-300 ${favorites[episode.id] ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-yellow-400 hover:bg-yellow-500'}`}
-                      onClick={() => toggleFavorite(episode.id)}
-                    >
-                      {favorites[episode.id] ? "Unfavorite" : "Favorite"}
-                    </button>
+                    <Favorite episodeId={episode.id} episodeTitle={episode.title} episodeDescription={episode.description} />
                   </li>
                 ))}
               </ul>

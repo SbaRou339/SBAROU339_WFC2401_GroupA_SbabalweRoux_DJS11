@@ -3,7 +3,21 @@ import React, { useState, useEffect, useRef } from 'react';
 const HomeButtons = ({ onSort, onGenre }) => {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const sortDropdownRef = useRef(null);
+  const genreDropdownRef = useRef(null);
+
+  const genres = [
+    { id: 0, name: 'All' },
+    { id: 1, name: 'Personal Growth' },
+    { id: 2, name: 'Investigative Journalism' },
+    { id: 3, name: 'History' },
+    { id: 4, name: 'Comedy' },
+    { id: 5, name: 'Entertainment' },
+    { id: 6, name: 'Business' },
+    { id: 7, name: 'Fiction' },
+    { id: 8, name: 'News' },
+    { id: 9, name: 'Kids and Family' },
+  ];
 
   const toggleSortDropdown = () => {
     setIsSortDropdownOpen(!isSortDropdownOpen);
@@ -14,10 +28,10 @@ const HomeButtons = ({ onSort, onGenre }) => {
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
       setIsSortDropdownOpen(false);
     }
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (genreDropdownRef.current && !genreDropdownRef.current.contains(event.target)) {
       setIsGenreDropdownOpen(false);
     }
   };
@@ -33,90 +47,43 @@ const HomeButtons = ({ onSort, onGenre }) => {
   };
 
   useEffect(() => {
-    if (isSortDropdownOpen) {
+    if (isSortDropdownOpen || isGenreDropdownOpen) {
       document.addEventListener('click', handleClickOutside);
     } else {
       document.removeEventListener('click', handleClickOutside);
     }
 
-
-
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isSortDropdownOpen]);
+  }, [isSortDropdownOpen, isGenreDropdownOpen]);
 
   return (
     <div className='flex items-center p-4 w-full z-[100]'>
-      <div className='relative' ref={dropdownRef}>
-      <button
-        className="text-white px-6 py-2 rounded from-gray-200 to-transparent cursor-pointer hover:bg-blue-500 hover:text-white transition duration-300"
-        onClick={toggleGenreDropdown}
-      >
-        Genre
-      </button>
-      {isGenreDropdownOpen && (
+      <div className='relative' ref={genreDropdownRef}>
+        <button
+          className="text-white px-6 py-2 rounded from-gray-200 to-transparent cursor-pointer hover:bg-blue-500 hover:text-white transition duration-300"
+          onClick={toggleGenreDropdown}
+        >
+          Genre
+        </button>
+        {isGenreDropdownOpen && (
           <div className='absolute mt-2 w-48 bg-white rounded shadow-md z-[200]'>
             <ul className='text-black'>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre('Personal Growth')}
-              >
-                Personal Growth
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre('Investigative Journalism')}
-              >
-                Investigative Journalism
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                History
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                Comedy
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                Entertainment
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                Business
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                Fiction
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                News
-              </li>
-              <li
-                className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                onClick={() => handleGenre()}
-              >
-                Kids and Family
-              </li>
+              {genres.map(genre => (
+                <li
+                  key={genre.id}
+                  className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
+                  onClick={() => handleGenre(genre.name)}
+                >
+                  {genre.name}
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
-      <div className='relative' ref={dropdownRef}>
+      <div className='relative' ref={sortDropdownRef}>
         <button
           className="text-white px-6 py-2 rounded from-gray-200 to-transparent cursor-pointer hover:bg-blue-500 hover:text-white transition duration-300"
           onClick={toggleSortDropdown}
