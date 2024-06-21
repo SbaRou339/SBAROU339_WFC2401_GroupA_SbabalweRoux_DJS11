@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import '../index.css'; // Ensure Tailwind is imported
+import "../index.css"; // Ensure Tailwind is imported
 import Favorite from "./Favorite"; // Import Favorite component
 
 const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
@@ -14,17 +14,18 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
 
   useEffect(() => {
     if (!selectedPodcast || selectedPodcast.id !== podcastId.id) {
-      fetch(`https://podcast-api.netlify.app/id/${podcastId.id}`).then(
-        (response) => response.json()
-      ).then((data) => {
-        setPodcast(data);
-        setSelectedPodcast(data); // Update the selected podcast in the parent component
-        setLoading(false);
-      }).catch((error) => {
-        console.error(`Error fetching show with ID ${podcastId.id}:`, error);
-        setError(`Error fetching show with ID ${podcastId.id}`);
-        setLoading(false);
-      });
+      fetch(`https://podcast-api.netlify.app/id/${podcastId.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setPodcast(data);
+          setSelectedPodcast(data); // Update the selected podcast in the parent component
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(`Error fetching show with ID ${podcastId.id}:`, error);
+          setError(`Error fetching show with ID ${podcastId.id}`);
+          setLoading(false);
+        });
     } else {
       setLoading(false);
     }
@@ -35,12 +36,18 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
     setPlayingEpisode(null); // Reset playing episode when selecting a new season
   };
 
+  const audioRef = React.createRef();
   const playEpisode = (episodeId) => {
     setPlayingEpisode(episodeId);
+    audioRef.current.src = episodes.find(
+      (episode) => episode.id === episodeId
+    ).audioSrc;
+    audioRef.current.play(); // Start playing the audio
   };
 
   const pauseEpisode = () => {
     setPlayingEpisode(null);
+    audioRef.current.pause(); // Pause the audio
   };
 
   const toggleDescription = (episodeId) => {
@@ -71,7 +78,11 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
   return (
     <div className="flex flex-col text-white bg-black p-6 rounded-lg max-w-4xl mx-auto shadow-lg gap-6">
       <div className="flex flex-col mt-20 items-center">
-        <img src={podcast.image} alt={podcast.title} className="w-48 h-48 rounded-full mb-6" />
+        <img
+          src={podcast.image}
+          alt={podcast.title}
+          className="w-48 h-48 rounded-full mb-6"
+        />
         <h1 className="text-3xl mt-4 font-bold mb-4">{podcast.title}</h1>
       </div>
       <p className="text-lg mb-6">{podcast.description}</p>
@@ -86,19 +97,32 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
           {selectedSeason === season.number && (
             <div className="flex flex-col gap-4">
               {season.image && (
-                <img src={season.image} alt={`Season ${season.number}`} className="w-32 h-32 rounded mb-4" />
+                <img
+                  src={season.image}
+                  alt={`Season ${season.number}`}
+                  className="w-32 h-32 rounded mb-4"
+                />
               )}
               <ul className="list-none pl-0">
                 {season.episodes.map((episode) => (
-                  <li className="mb-4 p-4 border border-gray-700 rounded-lg transition-colors duration-300 hover:bg-gray-800" key={episode.id}>
-                    <h3 className="text-xl font-medium mb-2">{episode.title}</h3>
+                  <li
+                    className="mb-4 p-4 border border-gray-700 rounded-lg transition-colors duration-300 hover:bg-gray-800"
+                    key={episode.id}
+                  >
+                    <h3 className="text-xl font-medium mb-2">
+                      {episode.title}
+                    </h3>
                     <p className="text-base mb-4">
-                      {showFullDescription[episode.id] ? episode.description : `${episode.description.slice(0, 100)}...`}
+                      {showFullDescription[episode.id]
+                        ? episode.description
+                        : `${episode.description.slice(0, 100)}...`}
                       <button
                         className="ml-2 text-blue-500 hover:underline"
                         onClick={() => toggleDescription(episode.id)}
                       >
-                        {showFullDescription[episode.id] ? "Show less" : "Show more"}
+                        {showFullDescription[episode.id]
+                          ? "Show less"
+                          : "Show more"}
                       </button>
                     </p>
                     <button
@@ -107,7 +131,11 @@ const Podcast = ({ selectedPodcast, setSelectedPodcast }) => {
                     >
                       {playingEpisode === episode.id ? "Pause" : "Play"}
                     </button>
-                    <Favorite episodeId={episode.id} episodeTitle={episode.title} episodeDescription={episode.description} />
+                    <Favorite
+                      episodeId={episode.id}
+                      episodeTitle={episode.title}
+                      episodeDescription={episode.description}
+                    />
                   </li>
                 ))}
               </ul>
