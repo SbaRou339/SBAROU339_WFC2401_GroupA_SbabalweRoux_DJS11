@@ -4,8 +4,8 @@ import HomeButtons from "./Components/Buttons";
 import GenrePage from "./Pages/GenrePage";
 import Home from "./Pages/HomePage";
 import Login from "./Pages/Login";
-import PodcastPage from "./Pages/PodcastPage";
 import SignUp from "./Pages/SignUp";
+import Podcast from "./Components/Podcast";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -51,10 +51,10 @@ const App = () => {
           }
         />
         <Route
-          path="/podcast"
+          path=":id"
           element={
             <Layout>
-              <PodcastPage />
+              <Podcast />
             </Layout>
           }
         />

@@ -1,44 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const fetchPodcast = async (podcastId) => {
-  try {
-    const response = await fetch(
-      `${'https://podcast-api.netlify.app'}/id/${podcastId}`
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch show with ID ${podcastId}`);
-    }
-    const data = await response.json();
-
-    // Assuming 'seasons' and 'episodes' are properties in the SHOW object
-    const podcastDetails = {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      image: data.image,
-      seasons: data.seasons.map((season) => ({
-        id: season.id,
-        number: season.number,
-        episodes: season.episodes.map((episode) => ({
-          id: episode.id,
-          title: episode.title,
-          description: episode.description, // Assuming there is a description
-          duration: episode.duration,
-          audioSrc: episode.file, // Assuming 'file' contains the audio URL
-        })),
-      })),
-    };
-    console.log(podcastDetails);
-    return podcastDetails;
-  } catch (error) {
-    console.error(`Error fetching show with ID ${podcastId}:`, error);
-    throw error;
-  }
-};
 
 const Podcast = () => {
-  const { podcastId } = useParams();
+  const podcastId = useParams();
   const [podcast, setPodcast] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeason, setSelectedSeason] = useState(null);
@@ -48,20 +13,19 @@ const Podcast = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchPodcast(podcastId);
+     
+      fetch(`https://podcast-api.netlify.app/id/${podcastId.id}`).then(
+        (response) => {return response.json()}
+      ).then((data) => {
         setPodcast(data);
         setLoading(false);
-      } catch (error) {
+      })
+       .catch ((error) =>{
         console.error(`Error fetching show with ID ${podcastId}:`, error);
         setError(`Error fetching show with ID ${podcastId}`);
         setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [podcastId]);
+       });
+  }, []);
 
   const handleSeasonSelect = (seasonNumber) => {
     setSelectedSeason(seasonNumber);
