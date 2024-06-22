@@ -1,6 +1,6 @@
 # Podcast App
 
-Welcome to the Podcast App! This project is a React application bootstrapped with Vite, designed for discovering, playing, and managing your favorite podcasts.
+Welcome to EchoPod! This project is a React application bootstrapped with Vite, designed for discovering, playing, and managing your favorite podcasts.
 
 ## Table of Contents
 
