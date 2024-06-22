@@ -112,7 +112,7 @@ We welcome contributions from the community! If you'd like to contribute, please
 If you have any questions or feedback, feel free to reach out:
 
 - **Email**: sbaviaroux@gmail.com
-- **GitHub**: [your-username](https://github.com/SbaRou339/SBAROU339_WFC2401_GroupA_SbabalweRoux_DJS11.git)
-- **Netlify Link**: [link](https://echopod1.netlify.app)
+- **GitHub**: [SbaRou339](https://github.com/SbaRou339/SBAROU339_WFC2401_GroupA_SbabalweRoux_DJS11.git)
+- **Netlify Link**: [EchoPod](https://echopod1.netlify.app)
 
 Thank you for using the EchoPod! We hope you enjoy it.
