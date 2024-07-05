@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 
+/**
+ * SearchBar component renders an input field for searching podcasts.
+ * It fetches the podcast data from the API and updates the state variables.
+ * It also handles loading and error states.
+ *
+ * @param {function} setResults - function to set the search results
+ * @returns {JSX.Element} - a div containing the input field and loading/error messages
+ */
 const SearchBar = ({ setResults }) => {
-  const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // State variables
+  const [query, setQuery] = useState(''); // stores the search query
+  const [loading, setLoading] = useState(false); // indicates if data is being loaded
+  const [error, setError] = useState(null); // stores any error that occurs during data fetching
 
+  /**
+   * Fetches the podcast data from the API and updates the state variables.
+   *
+   * @param {string} value - the search query
+   */
   const fetchData = (value) => {
     setLoading(true);
     setError(null);
@@ -17,6 +31,7 @@ const SearchBar = ({ setResults }) => {
         return response.json();
       })
       .then((json) => {
+        // Filter the podcasts that match the search query
         const results = json.filter((podcast) => {
           return value && podcast && podcast.title && podcast.title.toLowerCase().includes(value.toLowerCase());
         });
@@ -29,6 +44,12 @@ const SearchBar = ({ setResults }) => {
       });
   };
 
+  /**
+   * Handles the input change event and updates the search query.
+   * Also calls the fetchData function to fetch the podcast data.
+   *
+   * @param {Event} event - the input change event
+   */
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setQuery(value);

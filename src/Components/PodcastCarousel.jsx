@@ -3,11 +3,20 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+/**
+ * PodcastCarousel component displays a carousel of podcasts.
+ * It fetches the podcast data from the API and displays them in a carousel.
+ * It also handles loading and error states.
+ */
 const PodcastCarousel = () => {
-  const [podcasts, setPodcasts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // State variables
+  const [podcasts, setPodcasts] = useState([]); // Stores the podcast data
+  const [loading, setLoading] = useState(true); // Indicates if data is being loaded
+  const [error, setError] = useState(null); // Stores any error that occurs during data fetching
 
+  /**
+   * Fetches the podcast data from the API and updates the state variables.
+   */
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/shows")
       .then((response) => {
@@ -26,9 +35,15 @@ const PodcastCarousel = () => {
       });
   }, []);
 
+  /**
+   * Renders the loading or error message if needed.
+   */
   if (loading) return <div className="text-center py-10">Loading...</div>;
   if (error) return <div className="text-center py-10">Error: {error.message}</div>;
 
+  /**
+   * Sets the settings for the carousel.
+   */
   const settings = {
     dots: false, // Remove the dotted navigation bar
     infinite: true,
@@ -55,10 +70,14 @@ const PodcastCarousel = () => {
     ],
   };
 
+  /**
+   * Renders the carousel of podcasts.
+   */
   return (
     <div className="w-full h-[550px] text-white bg-black py-20">
       <div className="container mx-auto px-4">
         <Slider {...settings}>
+          {/* Map over the podcasts array and render a carousel item for each podcast */}
           {podcasts.map((podcast) => (
             <div key={podcast.id} className="p-2">
               <div className="transform hover:scale-105 transition-transform duration-300 bg-gray-800 rounded-lg overflow-hidden shadow-md">
