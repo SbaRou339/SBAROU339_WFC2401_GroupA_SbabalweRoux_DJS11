@@ -230,29 +230,7 @@ const Main = () => {
 
   return (
     <>
-      <HomeButtons onSort={sortPodcasts} onGenre={sortGenres} />
-      <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredPodcasts &&
-          filteredPodcasts.map((podcast) => {
-            return (
-              <Link key={podcast.id} to={`${podcast.id}`}>
-                <div
-                  key={podcast.id}
-                  className="relative bg-cover bg-center rounded-lg shadow-md h-96"
-                  style={{ backgroundImage: `url(${podcast.image})` }}
-                >
-                  <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
-                  <div className="relative z-10 p-4 flex flex-col justify-end h-full">
-                    <h2 className="text-xl font-semibold mb-2 text-white">
-                      {podcast.title}
-                    </h2>
-                    <div
-                      className="text-gray-300 mb-2"
-                      onClick={() => onShowClick(podcast.id)}
-                    >
-                      <strong>Seasons:</strong> {podcast.seasons}
-                    </div>
-                    <button
+      <H
                       className="text-gray-300 mb-2 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition duration-300"
                       onClick={() => {
                         navigate(":id");
